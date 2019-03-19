@@ -37,23 +37,34 @@ edges = (
 
 
 def Cube(hside):
-
+    
     glBegin(GL_LINES)
     for edge in edges:
         for vertex in edge:
             glVertex3fv(verticies[vertex])
     glEnd() 
     
+   
       
-
-    
-
-
 
 x = 0.0
 y = 0.0
 z = 0.0
+
+def translate():
+    x = float(translate_x.get())
+    y = float(translate_y.get())
+    z = float(translate_z.get())
+
     
+    glColor3f(1, 1, 1)
+    Cube(3)
+    glPushMatrix()
+    glColor3f(1, 1, 0)
+    glTranslatef(x,y,z)
+    Cube(3)
+    glPopMatrix()
+
 
 def main():
     pygame.init()
@@ -65,26 +76,22 @@ def main():
     gluLookAt(6, 6, 6, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
     
 
+    #Display funtion
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
 
-        #glRotatef(1, 3, 1, 1)
         
-        x = float(translate_x.get())
-        y = float(translate_y.get())
-        z = float(translate_z.get())
 
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-        glColor3f(1, 1, 1)
-        Cube(3)
-        glPushMatrix()
-        glColor3f(1, 1, 0)
-        glTranslatef(x,y,z)
-        Cube(3)
-        glPopMatrix()
+        if(translate_x.get() != '' and translate_y.get() != '' and translate_z.get() != ''):
+            translate()
+        else:
+            Cube(3)
+        
+        
         pygame.display.flip()
         pygame.time.wait(10)
 
