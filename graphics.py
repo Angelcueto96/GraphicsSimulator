@@ -54,17 +54,6 @@ x = 0.0
 y = 0.0
 z = 0.0
     
-def reshape(x, y):
-    glMatrixMode(GL_PROJECTION)
-    glLoadIdentity()
-    gluPerspective(45.0, float(x) / float(y), 0.1, 200.0)
-    glMatrixMode(GL_MODELVIEW)
-    glViewport(0, 0, x, y)
-    gluLookAt(0.0, 1.0, 4.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
-    display()
-
-def idle():
-    glutPostRedisplay()
 
 def main():
     pygame.init()
@@ -73,31 +62,6 @@ def main():
 
     gluPerspective(45, (display[0]/display[1]), 0.1, 150.0)
 
-    '''
-    glMatrixMode(GL_PROJECTION)
-    glLoadIdentity()
-    #gluPerspective(45.0, float(x) / float(y), 0.1, 200.0)
-    glMatrixMode(GL_MODELVIEW)
-    glViewport(0, 0, display[0], display[1])
-    #gluLookAt(0.0, 1.0, 4.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
-    '''
-    '''
-    glutInit()
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH | GLUT_RGB)
-    glutReshapeFunc(reshape)
-    glutDisplayFunc(display)
-    glutIdleFunc(idle)
-    glutMainLoop()
-    
-    
-    glEnable(GL_DEPTH_TEST)
-    glClearColor(0.0, 0.0, 0.0, 0.0)
-    glMatrixMode(GL_MODELVIEW)
-    glLoadIdentity()
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-    glLoadIdentity()
-    gluLookAt(1.5, 1.5, 1.5, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
-    '''
     gluLookAt(6, 6, 6, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
     
 
@@ -110,9 +74,14 @@ def main():
         #glRotatef(1, 3, 1, 1)
         
         x = float(translate_x.get())
+        y = float(translate_y.get())
+        z = float(translate_z.get())
 
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+        glColor3f(1, 1, 1)
+        Cube(3)
         glPushMatrix()
+        glColor3f(1, 1, 0)
         glTranslatef(x,y,z)
         Cube(3)
         glPopMatrix()
@@ -129,11 +98,18 @@ window.geometry('700x700')
     
 label_translate = ttk.Label(window, text="Translation")
 label_translate.grid(column = 0, row = 0, sticky='W',pady='20',  columnspan=10)
+
 translate_x = Entry(window)
 translate_x.grid(column = 0, row = 1, sticky='W',pady='20',  columnspan=10)
+
+translate_y = Entry(window)
+translate_y.grid(column = 0, row = 2, sticky='W',pady='20',  columnspan=10)
+
+translate_z = Entry(window)
+translate_z.grid(column = 0, row = 3, sticky='W',pady='20',  columnspan=10)
     
 submitButton = ttk.Button(window, text="Submit", command=main)
-submitButton.grid(column = 0, row = 2, sticky='W',pady='20',  columnspan=10)
+submitButton.grid(column = 0, row = 4, sticky='W',pady='20',  columnspan=10)
 
 window.mainloop()
     
