@@ -9,6 +9,8 @@ from tkinter import *
 from tkinter import ttk
 import tkinter.scrolledtext as Textbox
 
+import numpy as np
+
 verticies = (
     (1, -1, -1),
     (1, 1, -1),
@@ -111,6 +113,14 @@ def rotate():
     y = float(rotate_y.get())
     z = float(rotate_z.get())
 
+    glColor3f(1, 1, 1)
+    triangle()
+    glPushMatrix()
+    glColor3f(1, 1, 0)
+    glRotatef(0,0,1, 90)
+    triangle()
+    glPopMatrix()
+
 def main():
     pygame.init()
     display = (800,600)
@@ -119,6 +129,9 @@ def main():
     gluPerspective(45, (display[0]/display[1]), 0.1, 150.0)
 
     gluLookAt(6, 6, 6, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
+
+    for ent in entries:
+            print(ent.get())
     
 
     #Display funtion
@@ -130,8 +143,10 @@ def main():
 
         
 
+
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
         showAxes(10)
+        '''
         if( points_x1.get() != '' and points_y1.get() != '' and points_z1.get() != '' and points_x2.get() != '' and points_y2.get() != '' and points_z2.get() != '' and points_x3.get() != '' and points_y3.get() != '' and points_z3.get() != ''):
             #triangle()
             #Cube(3)
@@ -141,6 +156,7 @@ def main():
                 rotate()
             else:
                 Cube(3)
+        '''
         
         
         pygame.display.flip()
@@ -156,9 +172,19 @@ window.geometry('700x700')
 #Top Input
 top_frame = ttk.Frame(window)
 top_frame.grid(column = 0, row = 0, sticky='N',pady='20',  columnspan=1)
-
 points_label = ttk.Label(top_frame, text ="Points")
 points_label.grid(column = 0, row = 0, sticky='W',pady='10',  columnspan=1)
+
+entries = []
+for i in range(1,4):
+    for j in range(3) :
+        #label= ttk.Label(top_frame, text="x")
+        #label.grid(column = j, row = i, sticky='W',pady='20', padx='20', columnspan=1)
+        entry = Entry(top_frame) 
+        entry.grid(column = j + 1, row = i, sticky='W',pady='20',   columnspan=1) 
+        entries.append(entry)
+
+'''
 
 points_label_x1 = ttk.Label(top_frame, text="x1")
 points_label_x1.grid(column = 0, row = 1, sticky='W',pady='20', padx='20', columnspan=1)
@@ -198,6 +224,7 @@ points_label_z3 = ttk.Label(top_frame, text="z2")
 points_label_z3.grid(column = 4, row = 3, sticky='W',pady='20', padx='20', columnspan=1)
 points_z3 = Entry(top_frame)
 points_z3.grid(column = 5, row = 3, sticky='W',pady='20',  columnspan=1)
+'''
 
 #Trasnlate 
 translate_frame = ttk.Frame(window)
