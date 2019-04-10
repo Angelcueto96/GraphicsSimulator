@@ -146,12 +146,14 @@ def scale(target):
 
 
 def main():
+    inputvalidator = True
+
     pygame.init()
     display = (800,600)
     pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
 
     gluPerspective(45, (display[0]/display[1]), 0.1, 150.0)
-
+    camX = camY = camZ = 0
     camX = float(cameraEntries[0].get())
     camY = float(cameraEntries[1].get())
     camZ = float(cameraEntries[2].get())
@@ -209,16 +211,24 @@ def main():
 window = Tk()
 window.title('Graphic Simulator')
 window.geometry('850x1000')
+
+pointLabels = ['x' , 'y', 'z']
+
 #Top Input
 top_frame = ttk.Frame(window)
 top_frame.grid(column = 0, row = 0, sticky='N',pady='20',  columnspan=2)
 points_label = ttk.Label(top_frame, text ="Points")
 points_label.grid(column = 0, row = 0, sticky='W',pady='10',  columnspan=1)
 
-pointLabels = ['x' , 'y', 'z']
+for i in range(1,4):
+    pointLabel = ttk.Label(top_frame, text =pointLabels[i-1])
+    pointLabel.grid(column = i, row = 0, sticky='N',pady='10',  columnspan=1)
+
 
 pointEntries = []
 for i in range(1,4):
+    points_label = ttk.Label(top_frame, text =i)
+    points_label.grid(column = 0, row = i, sticky='W',pady='10',  columnspan=1)
     for j in range(3) :
         #label= ttk.Label(top_frame, text="x")
         #label.grid(column = j, row = i, sticky='W',pady='20', padx='20', columnspan=1)
