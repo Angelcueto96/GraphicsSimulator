@@ -51,13 +51,27 @@ def triangle():
     glBegin(GL_LINE_LOOP)
     
     
-    glVertex3f(float(points_x1.get()) , float(points_y1.get()) , float(points_z1.get()) )
-    glVertex3f(float(points_x2.get()) , float(points_y2.get()) , float(points_z2.get()) )
-    glVertex3f(float(points_x3.get()) , float(points_y3.get()) , float(points_z3.get()) )
+    #glVertex3f(float(points_x1.get()) , float(points_y1.get()) , float(points_z1.get()) )
+    #glVertex3f(float(points_x2.get()) , float(points_y2.get()) , float(points_z2.get()) )
+    #glVertex3f(float(points_x3.get()) , float(points_y3.get()) , float(points_z3.get()) )
     
     glEnd() 
 
     glPopMatrix()
+def figure():
+    glPushMatrix()
+    glBegin(GL_LINE_LOOP)
+    
+    counter = 0
+    while counter < len(pointEntries):
+        print(counter)
+        print(len(pointEntries))
+        glVertex3f(float(pointEntries[counter].get()) , float(pointEntries[counter + 1].get())  , float(pointEntries[counter + 2].get()))
+        counter = counter + 3
+    
+    glEnd() 
+    glPopMatrix()
+
 def showAxes(longitude):
     
     glPushMatrix()
@@ -94,18 +108,19 @@ x = 0.0
 y = 0.0
 z = 0.0
 
-def translate():
-    x = float(translate_x.get())
-    y = float(translate_y.get())
-    z = float(translate_z.get())
+def translate(target):
+    
+    x = float(translateEntries[0].get() ) * target
+    y = float(translateEntries[1].get() )* target
+    z = float(translateEntries[2].get() )* target
 
     
     glColor3f(1, 1, 1)
-    triangle()
+    figure()
     glPushMatrix()
     glColor3f(1, 1, 0)
     glTranslatef(x,y,z)
-    triangle()
+    figure()
     glPopMatrix()
 
 def rotate():
@@ -130,10 +145,21 @@ def main():
 
     gluLookAt(6, 6, 6, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
 
-    for ent in entries:
-            print(ent.get())
     
 
+    translateValidator = True
+    for entry in pointEntries:
+        if(entry.get() == ''):
+            trasnlateValidator = False
+
+    #rotateValidator = isinstance(rotationEntry, float)
+
+    scaleValidator = True
+    for entry in scaleEntries:
+        if(entry.get() == ''):
+            scaleValidator = False
+    
+    target = 0.0
     #Display funtion
     while True:
         for event in pygame.event.get():
@@ -141,11 +167,14 @@ def main():
                 pygame.quit()
                 #quit()
 
-        
-
-
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
         showAxes(10)
+
+         
+        target += 0.001
+        translate(target)
+        if(target > 1):
+            target = 0
         '''
         if( points_x1.get() != '' and points_y1.get() != '' and points_z1.get() != '' and points_x2.get() != '' and points_y2.get() != '' and points_z2.get() != '' and points_x3.get() != '' and points_y3.get() != '' and points_z3.get() != ''):
             #triangle()
@@ -168,59 +197,58 @@ def main():
 
 window = Tk()
 window.title('Graphic Simulator')
-window.geometry('700x700')
+window.geometry('850x1000')
 #Top Input
 top_frame = ttk.Frame(window)
 top_frame.grid(column = 0, row = 0, sticky='N',pady='20',  columnspan=3)
 points_label = ttk.Label(top_frame, text ="Points")
 points_label.grid(column = 0, row = 0, sticky='W',pady='10',  columnspan=1)
 
-entries = []
+pointLabels = ['x' , 'y', 'z']
+
+pointEntries = []
 for i in range(1,4):
     for j in range(3) :
         #label= ttk.Label(top_frame, text="x")
         #label.grid(column = j, row = i, sticky='W',pady='20', padx='20', columnspan=1)
         entry = Entry(top_frame) 
         entry.grid(column = j + 1, row = i, sticky='W',pady='20',   columnspan=1) 
-        entries.append(entry)
+        pointEntries.append(entry)
 
-'''
-
-'''
 
 #Trasnlate 
 translate_frame = ttk.Frame(window)
-translate_frame.grid(column = 0, row =1 , sticky='W',pady='20',  columnspan=1)
+translate_frame.grid(column = 0, row =1 , sticky='N',pady='20', padx='20' , columnspan=1)
 translate_label = ttk.Label(translate_frame, text="Translation")
-translate_label.grid(column = 0, row = 0, sticky='W',pady='20',  columnspan=1)
+translate_label.grid(column = 0, row = 0, sticky='N',pady='20',  columnspan=1)
 
+translateEntries = []
 for i in range(1,4):
-    label = ttk.Label(translate_frame, text="x")
+    label = ttk.Label(translate_frame, text=pointLabels[i-1])
     label.grid(column = 0, row = i, sticky='W',pady='20',  columnspan=1)
-    translate = Entry(translate_frame)
-    translate.grid(column = 1, row = i, sticky='W',pady='20',  columnspan=1)
+    entry = Entry(translate_frame)
+    entry.grid(column = 1, row = i, sticky='W',pady='20',  columnspan=1)  
+    translateEntries.append(entry)
     
-'''
-
-'''
-
-
 #Rotate
 rotate_frame = ttk.Frame(window)
-rotate_frame.grid(column = 1, row = 1, sticky='N',pady='20',  columnspan=1)
+rotate_frame.grid(column = 1, row = 1, sticky='N',pady='20',  padx='20', columnspan=1)
 rotate_label = ttk.Label(rotate_frame, text="Rotation")
 rotate_label.grid(column = 0, row = 0, sticky='N',pady='20',  columnspan=1)
 
-for i in range(1,5):
-    label = ttk.Label(rotate_frame, text="x")
-    label.grid(column = 0, row = i, sticky='W',pady='20',  columnspan=1)
-    translate = Entry(rotate_frame)
-    translate.grid(column = 1, row = i, sticky='W',pady='20',  columnspan=1)
+rotateButtons = []
+for i in range(1,4):
+    label = ttk.Label(rotate_frame, text=pointLabels[i-1])
+    label.grid(column = 0, row = i, sticky='W',pady='20',  padx='20', columnspan=1)
+    rotateVariable= IntVar()
+    checkButton= ttk.Checkbutton(rotate_frame, variable= rotateVariable)
+    checkButton.grid(column = 0, row = i, sticky='E')
+    rotateButtons.append(checkButton)
+label = ttk.Label(rotate_frame, text='Degree')
+label.grid(column = 0, row = 4, sticky='W',pady='20',  padx='20', columnspan=1)
+rotateEntry = Entry(rotate_frame) 
+rotateEntry.grid(column = 1, row = 4, sticky='W',pady='20',   columnspan=1) 
 
-
-'''
-
-'''
 
 #scale
 scale_frame = ttk.Frame(window)
@@ -228,19 +256,17 @@ scale_frame.grid(column = 2, row = 1, sticky='N',pady='20',  columnspan=1)
 scale_label = ttk.Label(scale_frame, text="Scale")
 scale_label.grid(column = 0, row = 0, sticky='N',pady='20',  columnspan=1)
 
+scaleEntries = []
 for i in range(1,4):
-    label = ttk.Label(scale_frame, text="x")
+    label = ttk.Label(scale_frame, text=pointLabels[i-1])
     label.grid(column = 0, row = i, sticky='W',pady='20',  columnspan=1)
-    translate = Entry(scale_frame)
-    translate.grid(column = 1, row = i, sticky='W',pady='20',  columnspan=1)
-
+    scale= Entry(scale_frame)
+    scale.grid(column = 1, row = i, sticky='W',pady='20',  columnspan=1)
+    scaleEntries.append(scale)
 
 
 submitButton = ttk.Button(window, text="Submit", command=main)
 submitButton.grid(column = 0, row = 4, sticky='W',pady='20',  columnspan=10)
-
-
-
 
 window.mainloop()
     
