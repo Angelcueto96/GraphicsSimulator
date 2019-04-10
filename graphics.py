@@ -152,7 +152,11 @@ def main():
 
     gluPerspective(45, (display[0]/display[1]), 0.1, 150.0)
 
-    gluLookAt(6, 6, 6, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
+    camX = float(cameraEntries[0].get())
+    camY = float(cameraEntries[1].get())
+    camZ = float(cameraEntries[2].get())
+
+    gluLookAt(camX, camY, camZ, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
 
     
 
@@ -207,7 +211,7 @@ window.title('Graphic Simulator')
 window.geometry('850x1000')
 #Top Input
 top_frame = ttk.Frame(window)
-top_frame.grid(column = 0, row = 0, sticky='N',pady='20',  columnspan=3)
+top_frame.grid(column = 0, row = 0, sticky='N',pady='20',  columnspan=2)
 points_label = ttk.Label(top_frame, text ="Points")
 points_label.grid(column = 0, row = 0, sticky='W',pady='10',  columnspan=1)
 
@@ -221,6 +225,20 @@ for i in range(1,4):
         entry = Entry(top_frame) 
         entry.grid(column = j + 1, row = i, sticky='W',pady='20',   columnspan=1) 
         pointEntries.append(entry)
+
+#camera
+camera_frame = ttk.Frame(window)
+camera_frame.grid(column = 2, row = 0, sticky='N',pady='20',  columnspan=1)
+camera_label = ttk.Label(camera_frame, text ="Camera")
+camera_label.grid(column = 0, row = 0, sticky='W',pady='10',  columnspan=1)
+
+cameraEntries = []
+for i in range(1,4):
+    label = ttk.Label(camera_frame, text=pointLabels[i-1])
+    label.grid(column = 0, row = i, sticky='W',pady='20',  columnspan=1)
+    entry= Entry(camera_frame)
+    entry.grid(column = 1, row = i, sticky='W',pady='20',  columnspan=1)
+    cameraEntries.append(entry)
 
 
 #Trasnlate 
