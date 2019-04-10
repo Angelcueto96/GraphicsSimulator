@@ -96,15 +96,7 @@ def showAxes(longitude):
     glEnd()
     glPopMatrix()
  
- 
-    
-   
-
       
-
-x = 0.0
-y = 0.0
-z = 0.0
 
 def translate(target):
     
@@ -138,6 +130,21 @@ def rotate(target):
     figure()
     glPopMatrix()
 
+def scale(target):
+    x = float(scaleEntries[0].get())  * target 
+    y = float(scaleEntries[1].get()) * target  
+    z = float(scaleEntries[2].get()) * target  
+
+
+    glColor3f(1, 1, 1)
+    figure()
+    glPushMatrix()
+    glColor3f(1, 1, 0)
+    glScalef(x,y,z)
+    figure()
+    glPopMatrix()
+
+
 def main():
     pygame.init()
     display = (800,600)
@@ -154,7 +161,10 @@ def main():
         if(entry.get() == ''):
             translateValidator = False
 
-    #rotateValidator = isinstance(rotationEntry, float)
+    rotateValidator = True
+    if( rotateEntry.get() == ''):
+        rotateValidator = False
+
 
     scaleValidator = True
     for entry in scaleEntries:
@@ -176,20 +186,13 @@ def main():
         target += 0.001
         if(translateValidator):
             translate(target)
-        rotate(target)
+        elif(rotateValidator):
+            rotate(target)
+        elif(scaleValidator):
+            scale(target)
+
         if(target > 1):
             target = 0
-        '''
-        if( points_x1.get() != '' and points_y1.get() != '' and points_z1.get() != '' and points_x2.get() != '' and points_y2.get() != '' and points_z2.get() != '' and points_x3.get() != '' and points_y3.get() != '' and points_z3.get() != ''):
-            #triangle()
-            #Cube(3)
-            if(translate_x.get() != '' and translate_y.get() != '' and translate_z.get() != ''):
-                translate()
-            elif(rotate_x.get() != '' and rotate_y.get() != '' and rotate_z.get() != ''):
-                rotate()
-            else:
-                Cube(3)
-        '''
         
         
         pygame.display.flip()
@@ -264,9 +267,9 @@ scaleEntries = []
 for i in range(1,4):
     label = ttk.Label(scale_frame, text=pointLabels[i-1])
     label.grid(column = 0, row = i, sticky='W',pady='20',  columnspan=1)
-    scale= Entry(scale_frame)
-    scale.grid(column = 1, row = i, sticky='W',pady='20',  columnspan=1)
-    scaleEntries.append(scale)
+    entry= Entry(scale_frame)
+    entry.grid(column = 1, row = i, sticky='W',pady='20',  columnspan=1)
+    scaleEntries.append(entry)
 
 
 submitButton = ttk.Button(window, text="Submit", command=main)
