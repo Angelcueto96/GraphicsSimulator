@@ -64,8 +64,6 @@ def figure():
     
     counter = 0
     while counter < len(pointEntries):
-        print(counter)
-        print(len(pointEntries))
         glVertex3f(float(pointEntries[counter].get()) , float(pointEntries[counter + 1].get())  , float(pointEntries[counter + 2].get()))
         counter = counter + 3
     
@@ -123,17 +121,21 @@ def translate(target):
     figure()
     glPopMatrix()
 
-def rotate():
-    x = float(rotate_x.get())
-    y = float(rotate_y.get())
-    z = float(rotate_z.get())
+def rotate(target):
+    print(rotateButtons[0].get())
+    x = float(rotateButtons[0].get())
+    y = float(rotateButtons[1].get())
+    z = float(rotateButtons[2].get())
+
+    alpha = float(rotateEntry.get()) * target
+    
 
     glColor3f(1, 1, 1)
-    triangle()
+    figure()
     glPushMatrix()
     glColor3f(1, 1, 0)
-    glRotatef(0,0,1, 90)
-    triangle()
+    glRotatef(alpha, x,y,z)
+    figure()
     glPopMatrix()
 
 def main():
@@ -148,9 +150,9 @@ def main():
     
 
     translateValidator = True
-    for entry in pointEntries:
+    for entry in translateEntries:
         if(entry.get() == ''):
-            trasnlateValidator = False
+            translateValidator = False
 
     #rotateValidator = isinstance(rotationEntry, float)
 
@@ -172,7 +174,9 @@ def main():
 
          
         target += 0.001
-        translate(target)
+        if(translateValidator):
+            translate(target)
+        rotate(target)
         if(target > 1):
             target = 0
         '''
@@ -243,7 +247,7 @@ for i in range(1,4):
     rotateVariable= IntVar()
     checkButton= ttk.Checkbutton(rotate_frame, variable= rotateVariable)
     checkButton.grid(column = 0, row = i, sticky='E')
-    rotateButtons.append(checkButton)
+    rotateButtons.append(rotateVariable)
 label = ttk.Label(rotate_frame, text='Degree')
 label.grid(column = 0, row = 4, sticky='W',pady='20',  padx='20', columnspan=1)
 rotateEntry = Entry(rotate_frame) 
