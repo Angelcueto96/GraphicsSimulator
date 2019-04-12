@@ -260,9 +260,9 @@ translate_label.grid(column = 0, row = 0, sticky='N',pady='20',  columnspan=1)
 translateEntries = []
 for i in range(1,4):
     label = ttk.Label(translate_frame, text=pointLabels[i-1])
-    label.grid(column = 0, row = i, sticky='W',pady='20',  columnspan=1)
+    label.grid(column = 0, row = i, sticky='N',pady='20',  columnspan=1)
     entry = Entry(translate_frame)
-    entry.grid(column = 1, row = i, sticky='W',pady='20',  columnspan=1)  
+    entry.grid(column = 1, row = i, sticky='N',pady='20',  columnspan=1)  
     translateEntries.append(entry)
     
 #Rotate
@@ -274,15 +274,15 @@ rotate_label.grid(column = 0, row = 0, sticky='N',pady='20',  columnspan=1)
 rotateButtons = []
 for i in range(1,4):
     label = ttk.Label(rotate_frame, text=pointLabels[i-1])
-    label.grid(column = 0, row = i, sticky='W',pady='20',  padx='20', columnspan=1)
+    label.grid(column = 0, row = i, sticky='N',pady='20',  padx='20', columnspan=1)
     rotateVariable= IntVar()
     checkButton= ttk.Checkbutton(rotate_frame, variable= rotateVariable)
-    checkButton.grid(column = 0, row = i, sticky='E')
+    checkButton.grid(column = 1, row = i, sticky='N', pady='20')
     rotateButtons.append(rotateVariable)
 label = ttk.Label(rotate_frame, text='Degree')
-label.grid(column = 0, row = 4, sticky='W',pady='20',  padx='20', columnspan=1)
+label.grid(column = 0, row = 4, sticky='N',pady='20',  padx='20', columnspan=1)
 rotateEntry = Entry(rotate_frame) 
-rotateEntry.grid(column = 1, row = 4, sticky='W',pady='20',   columnspan=1) 
+rotateEntry.grid(column = 1, row = 4, sticky='N',pady='20',   columnspan=1) 
 
 
 #scale
@@ -301,7 +301,7 @@ for i in range(1,4):
 
 
 submitButton = ttk.Button(window, text="Submit", command=main)
-submitButton.grid(column = 0, row = 4, sticky='W',pady='20',  columnspan=10)
+submitButton.grid(column = 0, row = 4, sticky='W',pady='20')
 
 window.mainloop()
     
