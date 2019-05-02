@@ -131,9 +131,9 @@ def rotate(target):
     glPopMatrix()
 
 def scale(target):
-    x = float(scaleEntries[0].get())  * target 
-    y = float(scaleEntries[1].get()) * target  
-    z = float(scaleEntries[2].get()) * target  
+    x = float(scaleEntries[0].get())  * (target ) 
+    y = float(scaleEntries[1].get()) * (target) 
+    z = float(scaleEntries[2].get()) * (target )  
 
 
     glColor3f(1, 1, 1)
@@ -144,6 +144,93 @@ def scale(target):
     figure()
     glPopMatrix()
 
+def trasnlate_rotate_scale(target):
+    xT = float(translateEntries[0].get() ) * target
+    yT = float(translateEntries[1].get() )* target
+    zT = float(translateEntries[2].get() )* target
+
+    xR = float(rotateButtons[0].get())
+    yR = float(rotateButtons[1].get())
+    zR = float(rotateButtons[2].get())
+
+    xS = float(scaleEntries[0].get())  * target 
+    yS = float(scaleEntries[1].get()) * target
+    zS = float(scaleEntries[2].get()) * target
+
+    alpha = float(rotateEntry.get()) * target  
+
+    glColor3f(1, 1, 1)
+    figure()
+    glPushMatrix()
+    glColor3f(1, 1, 0)
+    glTranslate(xT,yT,zT)
+    glRotatef(alpha, xR,yR,zR)
+    glScalef(xS,yS,zS)
+    figure()
+    glPopMatrix()
+
+def trasnlate_rotate(target):
+    xT = float(translateEntries[0].get() ) * target
+    yT = float(translateEntries[1].get() )* target
+    zT = float(translateEntries[2].get() )* target
+
+    xR = float(rotateButtons[0].get())
+    yR = float(rotateButtons[1].get())
+    zR = float(rotateButtons[2].get())
+
+    alpha = float(rotateEntry.get()) * target
+
+    glColor3f(1, 1, 1)
+    figure()
+    glPushMatrix()
+    glColor3f(1, 1, 0)
+    glTranslate(xT,yT,zT)
+    glRotatef(alpha, xR,yR,zR)
+    figure()
+    glPopMatrix()
+
+def trasnlate_scale(target):
+    xT = float(translateEntries[0].get() ) * target
+    yT = float(translateEntries[1].get() )* target
+    zT = float(translateEntries[2].get() )* target
+
+
+    xS = float(scaleEntries[0].get())  * target 
+    yS = float(scaleEntries[1].get()) * target
+    zS = float(scaleEntries[2].get()) * target
+
+    alpha = float(rotateEntry.get()) * target  
+
+    glColor3f(1, 1, 1)
+    figure()
+    glPushMatrix()
+    glColor3f(1, 1, 0)
+    glTranslate(xT,yT,zT)
+    glScalef(xS,yS,zS)
+    figure()
+    glPopMatrix()
+
+def rotate_scale(target):
+  
+    xR = float(rotateButtons[0].get())
+    yR = float(rotateButtons[1].get())
+    zR = float(rotateButtons[2].get())
+
+    xS = float(scaleEntries[0].get())  * target 
+    yS = float(scaleEntries[1].get()) * target
+    zS = float(scaleEntries[2].get()) * target
+
+    alpha = float(rotateEntry.get()) * target  
+
+    glColor3f(1, 1, 1)
+    figure()
+    glPushMatrix()
+    glColor3f(1, 1, 0)
+
+    glRotatef(alpha, xR,yR,zR)
+    glScalef(xS,yS,zS)
+    figure()
+    glPopMatrix()
 
 def main():
     inputvalidator = True
@@ -190,7 +277,15 @@ def main():
 
          
         target += 0.001
-        if(translateValidator):
+        if(translateValidator and rotateValidator and scaleValidator):
+            trasnlate_rotate_scale(target) 
+        elif(translateValidator and rotateValidator ):
+            trasnlate_rotate(target)
+        elif(translateValidator and scaleValidator):
+            trasnlate_scale(target)
+        elif(rotateValidator and scaleValidator):
+            rotate_scale(target)
+        elif(translateValidator):
             translate(target)
         elif(rotateValidator):
             rotate(target)
