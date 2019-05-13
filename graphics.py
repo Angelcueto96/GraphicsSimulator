@@ -11,53 +11,6 @@ import tkinter.scrolledtext as Textbox
 
 import numpy as np
 
-verticies = (
-    (1, -1, -1),
-    (1, 1, -1),
-    (-1, 1, -1),
-    (-1, -1, -1),
-    (1, -1, 1),
-    (1, 1, 1),
-    (-1, -1, 1),
-    (-1, 1, 1)
-    )
-
-edges = (
-    (0,1),
-    (0,3),
-    (0,4),
-    (2,1),
-    (2,3),
-    (2,7),
-    (6,3),
-    (6,4),
-    (6,7),
-    (5,1),
-    (5,4),
-    (5,7)
-    )
-
-
-def Cube(hside):
-    
-    glBegin(GL_LINES)
-    for edge in edges:
-        for vertex in edge:
-            glVertex3fv(verticies[vertex])
-    glEnd() 
-    
-def triangle():
-    glPushMatrix()
-    glBegin(GL_LINE_LOOP)
-    
-    
-    #glVertex3f(float(points_x1.get()) , float(points_y1.get()) , float(points_z1.get()) )
-    #glVertex3f(float(points_x2.get()) , float(points_y2.get()) , float(points_z2.get()) )
-    #glVertex3f(float(points_x3.get()) , float(points_y3.get()) , float(points_z3.get()) )
-    
-    glEnd() 
-
-    glPopMatrix()
 def figure():
     glPushMatrix()
     glBegin(GL_LINE_LOOP)
@@ -199,7 +152,7 @@ def trasnlate_scale(target):
     yS = float(scaleEntries[1].get()) * target
     zS = float(scaleEntries[2].get()) * target
 
-    alpha = float(rotateEntry.get()) * target  
+     
 
     glColor3f(1, 1, 1)
     figure()
